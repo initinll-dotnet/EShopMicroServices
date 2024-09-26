@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9B0B8BEE-8EDD-4E2F-83A8-B94A8AD1BAFF}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{12E9902D-6963-44AB-9E2B-5613145BF85A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{9C5C7056-5949-4DA4-A122-F0CED1894907}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{35F8DA23-3914-4E49-964A-A26C61745EF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.API", "src\Services\Catalog\Catalog.API\Catalog.API.csproj", "{8584AB2E-2CF9-4BFF-BE84-2E01358C48E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8584AB2E-2CF9-4BFF-BE84-2E01358C48E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8584AB2E-2CF9-4BFF-BE84-2E01358C48E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8584AB2E-2CF9-4BFF-BE84-2E01358C48E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8584AB2E-2CF9-4BFF-BE84-2E01358C48E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9C5C7056-5949-4DA4-A122-F0CED1894907} = {12E9902D-6963-44AB-9E2B-5613145BF85A}
+		{35F8DA23-3914-4E49-964A-A26C61745EF5} = {9C5C7056-5949-4DA4-A122-F0CED1894907}
+		{8584AB2E-2CF9-4BFF-BE84-2E01358C48E4} = {35F8DA23-3914-4E49-964A-A26C61745EF5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D210CA8A-8D31-4440-9E51-CEA7121C85FA}
+	EndGlobalSection
+EndGlobal
