@@ -1,6 +1,6 @@
 ﻿namespace Catalog.API.Products.CreateProduct;
 
-public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
+internal class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     private readonly IDocumentSession session;
 
