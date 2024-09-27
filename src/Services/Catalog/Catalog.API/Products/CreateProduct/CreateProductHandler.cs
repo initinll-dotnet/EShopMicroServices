@@ -1,12 +1,14 @@
-﻿using BuildingBlocks.CQRS;
-
-using Catalog.API.Models;
-
-namespace Catalog.API.Products.CreateProduct;
-
+﻿namespace Catalog.API.Products.CreateProduct;
 
 public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
+    private readonly IDocumentSession session;
+
+    public CreateProductCommandHandler(IDocumentSession session)
+    {
+        this.session = session;
+    }
+
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
         // create product entity
@@ -20,11 +22,13 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand,
         };
 
         // save to db
+        session.Store(product);
+        await session.SaveChangesAsync(cancellationToken);
 
         // return result
         var result = new CreateProductResult
         {
-            Id = Guid.NewGuid()
+            Id = product.Id
         };
 
         return result;
