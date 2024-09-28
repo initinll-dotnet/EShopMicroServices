@@ -4,10 +4,10 @@ public class GetProductsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/products", async (CancellationToken token, ISender sender) =>
+        app.MapGet("/products", async ([AsParameters] GetProductsRequest request, CancellationToken token, ISender sender) =>
         {
             // mapster
-            var query = new GetProductsQuery();
+            var query = request.Adapt<GetProductsQuery>();
             // mediatr
             var result = await sender.Send(query, token);
             // mapster
@@ -23,7 +23,11 @@ public class GetProductsEndpoint : ICarterModule
     }
 }
 
-//public record GetProductsRequest();
+public record GetProductsRequest
+{
+    public int? PageNumber { get; set; } = 1;
+    public int? PageSize { get; set; } = 10;
+}
 
 public record GetProductsResponse
 {

@@ -13,7 +13,7 @@ internal class GetProductsQueryHandler : IQueryHandler<GetProductsQuery, GetProd
     {
         var products = await session
             .Query<Product>()
-            .ToListAsync(cancellationToken);
+            .ToPagedListAsync(query.PageNumber ?? 1, query.PageSize ?? 10, cancellationToken);
 
         var result = new GetProductsResult
         {
@@ -26,6 +26,8 @@ internal class GetProductsQueryHandler : IQueryHandler<GetProductsQuery, GetProd
 
 public record GetProductsQuery : IQuery<GetProductsResult>
 {
+    public int? PageNumber { get; set; } = 1;
+    public int? PageSize { get; set; } = 10;
 }
 
 public record GetProductsResult
