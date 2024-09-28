@@ -4,7 +4,7 @@ public class GetProductsByCategoryEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/products/category/{category}", async (string category, ISender sender) =>
+        app.MapGet("/products/category/{category}", async (string category, CancellationToken token, ISender sender) =>
         {
             try
             {
@@ -15,7 +15,7 @@ public class GetProductsByCategoryEndpoint : ICarterModule
                 };
 
                 // mediatr
-                var result = await sender.Send(query);
+                var result = await sender.Send(query, token);
 
                 // mapster
                 var response = result.Adapt<GetProductsByCategoryResponse>();

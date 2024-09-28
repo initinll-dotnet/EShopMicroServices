@@ -1,16 +1,18 @@
-﻿namespace Catalog.API.Products.CreateProduct;
+﻿using RTools_NTS.Util;
+
+namespace Catalog.API.Products.CreateProduct;
 
 public class CreateProductEndpoint : ICarterModule
 {
     // carter
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/products", async (CreateProductRequest request, ISender sender) =>
+        app.MapPost("/products", async (CreateProductRequest request, CancellationToken token, ISender sender) =>
         {
             // mapster
             var command = request.Adapt<CreateProductCommand>();
             // mediatr
-            var result = await sender.Send(command);
+            var result = await sender.Send(command, token);
             // mapster
             var response = result.Adapt<CreateProductResponse>();
 
