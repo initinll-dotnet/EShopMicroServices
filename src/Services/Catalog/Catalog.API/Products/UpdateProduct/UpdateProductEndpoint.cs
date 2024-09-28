@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace Catalog.API.Products.UpdateProduct;
+﻿namespace Catalog.API.Products.UpdateProduct;
 
 public class UpdateProductEndpoint : ICarterModule
 {
@@ -8,33 +6,13 @@ public class UpdateProductEndpoint : ICarterModule
     {
         app.MapPut("/products", async (UpdateProductRequest request, CancellationToken token, ISender sender) =>
         {
-            try
-            {
-                var command = request.Adapt<UpdateProductCommand>();
+            var command = request.Adapt<UpdateProductCommand>();
 
-                var result = await sender.Send(command, token);
+            var result = await sender.Send(command, token);
 
-                var response = result.Adapt<UpdateProductResponse>();
+            var response = result.Adapt<UpdateProductResponse>();
 
-                return Results.Ok(response);
-            }
-            catch (ValidationException ex)
-            {
-                var problem = new ProblemDetails
-                {
-                    Detail = ex.Message,
-                    Status = StatusCodes.Status400BadRequest
-                };
-                return Results.BadRequest(problem);
-            }
-            catch (ProductNotFoundException)
-            {
-                return Results.NotFound();
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem(detail: ex.Message, statusCode: StatusCodes.Status500InternalServerError);
-            }
+            return Results.Ok(response);
         })
         .WithName("UpdateProduct")
         .Produces<UpdateProductResponse>(StatusCodes.Status200OK)

@@ -7,25 +7,14 @@ public class CreateProductEndpoint : ICarterModule
     {
         app.MapPost("/products", async (CreateProductRequest request, CancellationToken token, ISender sender) =>
         {
-            try
-            {
-                // mapster
-                var command = request.Adapt<CreateProductCommand>();
-                // mediatr
-                var result = await sender.Send(command, token);
-                // mapster
-                var response = result.Adapt<CreateProductResponse>();
+            // mapster
+            var command = request.Adapt<CreateProductCommand>();
+            // mediatr
+            var result = await sender.Send(command, token);
+            // mapster
+            var response = result.Adapt<CreateProductResponse>();
 
-                return Results.Created($"/products/{response.Id}", response);
-            }
-            catch (ValidationException ex)
-            {
-                return Results.BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem(detail: ex.Message, statusCode: StatusCodes.Status500InternalServerError);
-            }
+            return Results.Created($"/products/{response.Id}", response);
         })
         .WithName("CreateProduct")
         .Produces<CreateProductResponse>(StatusCodes.Status201Created)

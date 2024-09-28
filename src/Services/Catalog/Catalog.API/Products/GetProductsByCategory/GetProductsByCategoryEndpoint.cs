@@ -6,30 +6,19 @@ public class GetProductsByCategoryEndpoint : ICarterModule
     {
         app.MapGet("/products/category/{category}", async (string category, CancellationToken token, ISender sender) =>
         {
-            try
+            // mapster
+            var query = new GetProductsByCategoryQuery
             {
-                // mapster
-                var query = new GetProductsByCategoryQuery
-                {
-                    Category = category
-                };
+                Category = category
+            };
 
-                // mediatr
-                var result = await sender.Send(query, token);
+            // mediatr
+            var result = await sender.Send(query, token);
 
-                // mapster
-                var response = result.Adapt<GetProductsByCategoryResponse>();
+            // mapster
+            var response = result.Adapt<GetProductsByCategoryResponse>();
 
-                return Results.Ok(response);
-            }
-            catch (ProductNotFoundException ex)
-            {
-                return Results.NotFound();
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem(detail: ex.Message, statusCode: StatusCodes.Status500InternalServerError);
-            }
+            return Results.Ok(response);
         })
         .WithName("GetProductsByCategory")
         .Produces<GetProductsByCategoryResponse>(StatusCodes.Status200OK)

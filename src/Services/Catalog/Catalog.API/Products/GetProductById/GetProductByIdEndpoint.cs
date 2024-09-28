@@ -6,30 +6,19 @@ public class GetProductByIdEndpoint : ICarterModule
     {
         app.MapGet("/product/{id}", async (Guid id, CancellationToken token, ISender sender) =>
         {
-            try
+            // mapster
+            var query = new GetProductByIdQuery
             {
-                // mapster
-                var query = new GetProductByIdQuery
-                {
-                    Id = id
-                };
+                Id = id
+            };
 
-                // mediatr
-                var result = await sender.Send(query, token);
+            // mediatr
+            var result = await sender.Send(query, token);
 
-                // mapster
-                var response = result.Adapt<GetProductByIdResponse>();
+            // mapster
+            var response = result.Adapt<GetProductByIdResponse>();
 
-                return Results.Ok(response);
-            }
-            catch (ProductNotFoundException ex)
-            {
-                return Results.NotFound();
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem(detail: ex.Message, statusCode: StatusCodes.Status500InternalServerError);
-            }
+            return Results.Ok(response);
         })
         .WithName("GetProductById")
         .Produces<GetProductByIdResponse>(StatusCodes.Status200OK)
