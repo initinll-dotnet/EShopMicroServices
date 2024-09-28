@@ -3,18 +3,14 @@
 internal class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     private readonly IDocumentSession session;
-    private readonly ILogger<CreateProductCommandHandler> logger;
 
-    public CreateProductCommandHandler(IDocumentSession session, ILogger<CreateProductCommandHandler> logger)
+    public CreateProductCommandHandler(IDocumentSession session)
     {
         this.session = session;
-        this.logger = logger;
     }
 
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation("CreateProductCommandHandler.Handle called with {@Command}", command);
-
         // create product entity
         var product = new Product
         {
