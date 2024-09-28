@@ -9,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 var assembly = typeof(Program).Assembly;
 var connectionString = builder.Configuration.GetConnectionString("Database")!;
 
-// Add services to the container
+// ########### Add services to the container ###########
+
 builder.Services.AddMediatR(config =>
 {
     // mediatr pipeline
@@ -42,9 +43,14 @@ builder.Services
     .AddHealthChecks()
     .AddNpgSql(connectionString);
 
+// ########### Add services to the container ###########
+
+
 var app = builder.Build();
 
-// Configure HTTP request pipeline
+
+// ########### Configure HTTP request pipeline ###########
+
 app.MapCarter();
 
 app.UseExceptionHandler(options => { });
@@ -53,5 +59,7 @@ app.UseHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
+
+// ########### Configure HTTP request pipeline ###########
 
 app.Run();
