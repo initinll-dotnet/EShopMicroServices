@@ -1,13 +1,21 @@
-﻿
-namespace Basket.API.Basket.DeleteBasket;
+﻿namespace Basket.API.Basket.DeleteBasket;
 
 internal class DeleteBasketCommandHandler : ICommandHandler<DeleteBasketCommand, DeleteBasketResult>
 {
+    private readonly IBasketRepository basketRepository;
+
+    public DeleteBasketCommandHandler(IBasketRepository basketRepository)
+    {
+        this.basketRepository = basketRepository;
+    }
+
     public async Task<DeleteBasketResult> Handle(DeleteBasketCommand command, CancellationToken cancellationToken)
     {
+        var result = await basketRepository.DeleteBasket(command.UserName, cancellationToken);
+
         return new DeleteBasketResult
         {
-            IsSuccess = true
+            IsSuccess = result
         };
     }
 }

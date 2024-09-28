@@ -2,13 +2,20 @@
 
 internal class StoreBasketCommandHandler : ICommandHandler<StoreBasketCommand, StoreBasketResult>
 {
+    private readonly IBasketRepository basketRepository;
+
+    public StoreBasketCommandHandler(IBasketRepository basketRepository)
+    {
+        this.basketRepository = basketRepository;
+    }
+
     public async Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
     {
-        ShoppingCart cart = command.Cart;
+        await basketRepository.StoreBasket(command.Cart, cancellationToken);
 
         return new StoreBasketResult
         {
-            UserName = "swn"
+            UserName = command.Cart.UserName
         };
     }
 }

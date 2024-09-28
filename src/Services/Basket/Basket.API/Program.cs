@@ -1,9 +1,7 @@
-using BuildingBlocks.Behaviors;
-using BuildingBlocks.Exceptions.Handler;
-
 var builder = WebApplication.CreateBuilder(args);
 
 var assembly = typeof(Program).Assembly;
+var connectionString = builder.Configuration.GetConnectionString("Database")!;
 
 // ########### Add services to the container ###########
 
@@ -19,7 +17,19 @@ builder.Services.AddValidatorsFromAssembly(assembly);
 
 builder.Services.AddCarter();
 
+builder.Services.AddMarten(provider =>
+{
+    if (string.IsNullOrEmpty(connectionString))
+    {
+        throw new InvalidOperationException("Connection string is not configured.");
+    }
+    provider.Connection(connectionString);
+    provider.Schema.For<ShoppingCart>().Identity(x => x.UserName);
+}).UseLightweightSessions();
+
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 
 // ########### Add services to the container ###########
 

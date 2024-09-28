@@ -2,11 +2,20 @@
 
 internal class GetBasketQueryHandler : IQueryHandler<GetBasketQuery, GetBasketResult>
 {
+    private readonly IBasketRepository basketRepository;
+
+    public GetBasketQueryHandler(IBasketRepository basketRepository)
+    {
+        this.basketRepository = basketRepository;
+    }
+
     public async Task<GetBasketResult> Handle(GetBasketQuery query, CancellationToken cancellationToken)
     {
+        var basket = await basketRepository.GetBasket(query.UserName, cancellationToken);
+
         return new GetBasketResult
         {
-            Cart = new ShoppingCart("swn")
+            Cart = basket
         };
     }
 }
