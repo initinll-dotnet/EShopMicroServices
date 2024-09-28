@@ -1,4 +1,6 @@
-﻿namespace Catalog.API.Products.UpdateProduct;
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace Catalog.API.Products.UpdateProduct;
 
 public class UpdateProductEndpoint : ICarterModule
 {
@@ -16,7 +18,16 @@ public class UpdateProductEndpoint : ICarterModule
 
                 return Results.Ok(response);
             }
-            catch (ProductNotFoundException ex)
+            catch (ValidationException ex)
+            {
+                var problem = new ProblemDetails
+                {
+                    Detail = ex.Message,
+                    Status = StatusCodes.Status400BadRequest
+                };
+                return Results.BadRequest(problem);
+            }
+            catch (ProductNotFoundException)
             {
                 return Results.NotFound();
             }
@@ -29,6 +40,7 @@ public class UpdateProductEndpoint : ICarterModule
         .Produces<UpdateProductResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .ProducesProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status500InternalServerError)
         .WithSummary("Update Product")
         .WithDescription("Update Product");
     }

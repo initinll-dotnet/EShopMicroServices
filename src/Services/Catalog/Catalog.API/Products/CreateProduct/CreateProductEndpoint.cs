@@ -1,6 +1,4 @@
-﻿using RTools_NTS.Util;
-
-namespace Catalog.API.Products.CreateProduct;
+﻿namespace Catalog.API.Products.CreateProduct;
 
 public class CreateProductEndpoint : ICarterModule
 {
@@ -9,18 +7,30 @@ public class CreateProductEndpoint : ICarterModule
     {
         app.MapPost("/products", async (CreateProductRequest request, CancellationToken token, ISender sender) =>
         {
-            // mapster
-            var command = request.Adapt<CreateProductCommand>();
-            // mediatr
-            var result = await sender.Send(command, token);
-            // mapster
-            var response = result.Adapt<CreateProductResponse>();
+            try
+            {
+                // mapster
+                var command = request.Adapt<CreateProductCommand>();
+                // mediatr
+                var result = await sender.Send(command, token);
+                // mapster
+                var response = result.Adapt<CreateProductResponse>();
 
-            return Results.Created($"/products/{response.Id}", response);
+                return Results.Created($"/products/{response.Id}", response);
+            }
+            catch (ValidationException ex)
+            {
+                return Results.BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem(detail: ex.Message, statusCode: StatusCodes.Status500InternalServerError);
+            }
         })
         .WithName("CreateProduct")
         .Produces<CreateProductResponse>(StatusCodes.Status201Created)
         .ProducesProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status500InternalServerError)
         .WithSummary("Create Product")
         .WithDescription("Create Product");
     }
