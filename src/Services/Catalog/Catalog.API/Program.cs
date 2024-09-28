@@ -1,8 +1,13 @@
 using Catalog.API.Data;
 
+using HealthChecks.UI.Client;
+
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var assembly = typeof(Program).Assembly;
+var connectionString = builder.Configuration.GetConnectionString("Database")!;
 
 // Add services to the container
 builder.Services.AddMediatR(config =>
@@ -18,8 +23,7 @@ builder.Services.AddValidatorsFromAssembly(assembly);
 builder.Services.AddCarter();
 
 builder.Services.AddMarten(provider =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("Database")!;
+{    
     if (string.IsNullOrEmpty(connectionString))
     {
         throw new InvalidOperationException("Connection string is not configured.");
@@ -34,11 +38,20 @@ if (builder.Environment.IsDevelopment())
 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
+builder.Services
+    .AddHealthChecks()
+    .AddNpgSql(connectionString);
+
 var app = builder.Build();
 
 // Configure HTTP request pipeline
 app.MapCarter();
 
 app.UseExceptionHandler(options => { });
+
+app.UseHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.Run();
