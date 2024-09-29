@@ -4,7 +4,7 @@ internal class GetBasketQueryHandler : IQueryHandler<GetBasketQuery, GetBasketRe
 {
     private readonly IBasketRepository basketRepository;
 
-    public GetBasketQueryHandler(IBasketRepository basketRepository)
+    public GetBasketQueryHandler([FromKeyedServices("cache")] IBasketRepository basketRepository)
     {
         this.basketRepository = basketRepository;
     }

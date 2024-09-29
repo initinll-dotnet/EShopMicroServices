@@ -4,7 +4,7 @@ internal class StoreBasketCommandHandler : ICommandHandler<StoreBasketCommand, S
 {
     private readonly IBasketRepository basketRepository;
 
-    public StoreBasketCommandHandler(IBasketRepository basketRepository)
+    public StoreBasketCommandHandler([FromKeyedServices("cache")] IBasketRepository basketRepository)
     {
         this.basketRepository = basketRepository;
     }

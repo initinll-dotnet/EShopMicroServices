@@ -4,7 +4,7 @@ internal class DeleteBasketCommandHandler : ICommandHandler<DeleteBasketCommand,
 {
     private readonly IBasketRepository basketRepository;
 
-    public DeleteBasketCommandHandler(IBasketRepository basketRepository)
+    public DeleteBasketCommandHandler([FromKeyedServices("cache")] IBasketRepository basketRepository)
     {
         this.basketRepository = basketRepository;
     }

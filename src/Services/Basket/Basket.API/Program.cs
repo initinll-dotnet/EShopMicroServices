@@ -1,7 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
 
 var assembly = typeof(Program).Assembly;
-var connectionString = builder.Configuration.GetConnectionString("Database")!;
+var postgres_connectionString = builder.Configuration.GetConnectionString("Database")!;
+var redis_connectionString = builder.Configuration.GetConnectionString("Redis")!;
 
 // ########### Add services to the container ###########
 
@@ -19,17 +20,32 @@ builder.Services.AddCarter();
 
 builder.Services.AddMarten(provider =>
 {
-    if (string.IsNullOrEmpty(connectionString))
+    if (string.IsNullOrEmpty(postgres_connectionString))
     {
         throw new InvalidOperationException("Connection string is not configured.");
     }
-    provider.Connection(connectionString);
+    provider.Connection(postgres_connectionString);
     provider.Schema.For<ShoppingCart>().Identity(x => x.UserName);
 }).UseLightweightSessions();
 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
-builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+builder.Services.AddKeyedScoped<IBasketRepository, BasketRepository>("db");
+builder.Services.AddKeyedScoped<IBasketRepository, CachedBasketRepository>("cache");
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    if (string.IsNullOrEmpty(redis_connectionString))
+    {
+        throw new InvalidOperationException("Connection string is not configured.");
+    }
+    options.Configuration = redis_connectionString;
+});
+
+builder.Services
+    .AddHealthChecks()
+    .AddNpgSql(postgres_connectionString)
+    .AddRedis(redis_connectionString);
 
 // ########### Add services to the container ###########
 
@@ -43,6 +59,10 @@ app.MapCarter();
 
 app.UseExceptionHandler(options => { });
 
+app.UseHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 // ########### Configure HTTP request pipeline ###########
 
