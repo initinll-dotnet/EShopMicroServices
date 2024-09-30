@@ -1,11 +1,16 @@
+using Discount.Grpc;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var assembly = typeof(Program).Assembly;
 var postgres_connectionString = builder.Configuration.GetConnectionString("Database")!;
 var redis_connectionString = builder.Configuration.GetConnectionString("Redis")!;
+var discountGrpcUrl = builder.Configuration["GrpcSettings:DiscountUrl"]!;
 
 // ########### Add services to the container ###########
 
+//Application Services
+builder.Services.AddCarter();
 builder.Services.AddMediatR(config =>
 {
     // mediatr pipeline
@@ -13,11 +18,9 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
     config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
-
 builder.Services.AddValidatorsFromAssembly(assembly);
 
-builder.Services.AddCarter();
-
+//Data Services
 builder.Services.AddMarten(provider =>
 {
     if (string.IsNullOrEmpty(postgres_connectionString))
@@ -27,8 +30,6 @@ builder.Services.AddMarten(provider =>
     provider.Connection(postgres_connectionString);
     provider.Schema.For<ShoppingCart>().Identity(x => x.UserName);
 }).UseLightweightSessions();
-
-builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 builder.Services.AddKeyedScoped<IBasketRepository, BasketRepository>("db");
 builder.Services.AddKeyedScoped<IBasketRepository, CachedBasketRepository>("cache");
@@ -41,6 +42,25 @@ builder.Services.AddStackExchangeRedisCache(options =>
     }
     options.Configuration = redis_connectionString;
 });
+
+//Grpc Services
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options => 
+{
+    options.Address = new Uri(discountGrpcUrl);
+})
+.ConfigurePrimaryHttpMessageHandler(() =>
+{
+    var handler = new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback =
+        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+    };
+
+    return handler;
+});
+
+//Cross-Cutting Services
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 builder.Services
     .AddHealthChecks()
