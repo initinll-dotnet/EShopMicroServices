@@ -1,6 +1,15 @@
+using Ordering.API;
+using Ordering.Application;
+using Ordering.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // ########### Add services to the container ###########
+
+builder.Services
+    .AddApplicationServices(builder.Configuration)
+    .AddInfrastructureServices(builder.Configuration)
+    .AddApiServices(builder.Configuration);
 
 // ########### Add services to the container ###########
 
@@ -8,8 +17,8 @@ var app = builder.Build();
 
 // ########### Configure HTTP request pipeline ###########
 
-// ########### Configure HTTP request pipeline ###########
+app.UseApiServices();
 
-app.MapGet("/", () => "Hello World!");
+// ########### Configure HTTP request pipeline ###########
 
 app.Run();
