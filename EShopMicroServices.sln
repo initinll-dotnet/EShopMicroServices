@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9B0B8BEE-8EDD-4E2F-83A8-B94A8AD1BAFF}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		ReadMe.md = ReadMe.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{12E9902D-6963-44AB-9E2B-5613145BF85A}"
@@ -49,6 +50,21 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApps", "WebApps", "{CFF0B508-6DA7-47B6-9962-E323A3267E5A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping.Web", "src\WebApps\Shopping.Web\Shopping.Web.csproj", "{5290C292-91AE-45AF-B878-498E29B17FA3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{69CDA784-3E83-443C-95AA-0644BF1583CE}"
+	ProjectSection(SolutionItems) = preProject
+		images\basket_microservice_architecture.PNG = images\basket_microservice_architecture.PNG
+		images\catalog_microservice_architecture.PNG = images\catalog_microservice_architecture.PNG
+		images\discount_microservice_architecture.PNG = images\discount_microservice_architecture.PNG
+		images\eshop_microservice_project.PNG = images\eshop_microservice_project.PNG
+		images\microservices_async_communication.PNG = images\microservices_async_communication.PNG
+		images\ordering_microservice_architecture.PNG = images\ordering_microservice_architecture.PNG
+		images\overall_microservices_architecture.PNG = images\overall_microservices_architecture.PNG
+		images\ports.PNG = images\ports.PNG
+		images\web_app_architecture.PNG = images\web_app_architecture.PNG
+		images\yarp_apis.PNG = images\yarp_apis.PNG
+		images\yarp_api_gateway.PNG = images\yarp_api_gateway.PNG
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -128,6 +144,7 @@ Global
 		{4F954108-E690-4A3E-9278-167A63711422} = {02D8E8A6-37FA-4143-AFE0-73E070E65617}
 		{CFF0B508-6DA7-47B6-9962-E323A3267E5A} = {12E9902D-6963-44AB-9E2B-5613145BF85A}
 		{5290C292-91AE-45AF-B878-498E29B17FA3} = {CFF0B508-6DA7-47B6-9962-E323A3267E5A}
+		{69CDA784-3E83-443C-95AA-0644BF1583CE} = {9B0B8BEE-8EDD-4E2F-83A8-B94A8AD1BAFF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D210CA8A-8D31-4440-9E51-CEA7121C85FA}
