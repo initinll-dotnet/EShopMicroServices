@@ -4,7 +4,7 @@ public class GetProductByIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/product/{id}", async (Guid id, CancellationToken token, ISender sender) =>
+        app.MapGet("/products/{id}", async (Guid id, CancellationToken token, ISender sender) =>
         {
             // mapster
             var query = new GetProductByIdQuery
