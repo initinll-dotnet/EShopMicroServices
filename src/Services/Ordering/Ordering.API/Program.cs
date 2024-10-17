@@ -1,3 +1,5 @@
+using BuildingBlocks.Telemetry;
+
 using Ordering.API;
 using Ordering.Application;
 using Ordering.Infrastructure;
@@ -11,6 +13,10 @@ builder.Services
     .AddApplicationServices(builder.Configuration)
     .AddInfrastructureServices(builder.Configuration)
     .AddApiServices(builder.Configuration);
+
+// Opentelemetry
+builder.Services.AddOTelService(resourceName: "Ordering.API");
+builder.Logging.AddOTelProvider();
 
 // ########### Add services to the container ###########
 

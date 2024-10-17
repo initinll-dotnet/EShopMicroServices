@@ -1,3 +1,5 @@
+using BuildingBlocks.Telemetry;
+
 using Discount.Grpc.Data;
 using Discount.Grpc.Services;
 
@@ -19,6 +21,10 @@ builder.Services.AddDbContext<DiscountContext>(options =>
 {
     options.UseSqlite(connectionString);
 });
+
+// Opentelemetry
+builder.Services.AddOTelService(resourceName: "Discount.Grpc");
+builder.Logging.AddOTelProvider();
 
 // ########### Add services to the container ###########
 

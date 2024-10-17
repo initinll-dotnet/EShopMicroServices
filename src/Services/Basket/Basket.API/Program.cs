@@ -1,3 +1,5 @@
+using BuildingBlocks.Telemetry;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var assembly = typeof(Program).Assembly;
@@ -67,6 +69,10 @@ builder.Services
     .AddHealthChecks()
     .AddNpgSql(postgres_connectionString)
     .AddRedis(redis_connectionString);
+
+// Opentelemetry
+builder.Services.AddOTelService(resourceName: "Basket.API");
+builder.Logging.AddOTelProvider();
 
 // ########### Add services to the container ###########
 

@@ -79,8 +79,10 @@ services:
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
       - ConnectionStrings__Database=Server=catalogdb;Port=5432;Database=CatalogDb;User Id=postgres;Password=postgres;Include Error Detail=true
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire.dashboard:18889
     depends_on:
       - catalogdb  
+      - aspire.dashboard
     ports:
       - "6000:8080"
       - "6060:8081"
@@ -103,11 +105,13 @@ services:
       - MessageBroker__Host=amqp://ecommerce-mq:5672
       - MessageBroker__UserName=guest
       - MessageBroker__Password=guest
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire.dashboard:18889
     depends_on:
       - basketdb  
       - distributedcache
       - discount.grpc
       - messagebroker
+      - aspire.dashboard
     ports:
       - "6001:8080"
       - "6061:8081"
@@ -125,6 +129,9 @@ services:
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
       - ConnectionStrings__Database=Data Source=discountdb
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire.dashboard:18889
+    depends_on:
+      - aspire.dashboard
     ports:
       - "6002:8080"
       - "6062:8081"
@@ -146,9 +153,11 @@ services:
       - MessageBroker__UserName=guest
       - MessageBroker__Password=guest
       - FeatureManagement__OrderFullfilment=false
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire.dashboard:18889
     depends_on:
       - orderdb
       - messagebroker
+      - aspire.dashboard
     ports:
       - "6003:8080"
       - "6063:8081"
@@ -194,6 +203,15 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+  
+  aspire.dashboard:
+    container_name: aspire.dashboard
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:8.2
+    environment:
+      - DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true
+    ports:
+      - "18888:18888"
+      - "4317:18889"
 
 volumes:
   postgres_catalog:

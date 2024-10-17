@@ -1,3 +1,5 @@
+using BuildingBlocks.Telemetry;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var assembly = typeof(Program).Assembly;
@@ -36,6 +38,10 @@ builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services
     .AddHealthChecks()
     .AddNpgSql(connectionString);
+
+// Opentelemetry
+builder.Services.AddOTelService(resourceName: "Catalog.API");
+builder.Logging.AddOTelProvider();
 
 // ########### Add services to the container ###########
 
