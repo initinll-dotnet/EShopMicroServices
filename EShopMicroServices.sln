@@ -49,7 +49,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YarpApiGateway", "src\ApiGa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApps", "WebApps", "{CFF0B508-6DA7-47B6-9962-E323A3267E5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping.Web", "src\WebApps\Shopping.Web\Shopping.Web.csproj", "{5290C292-91AE-45AF-B878-498E29B17FA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shopping.Web", "src\WebApps\Shopping.Web\Shopping.Web.csproj", "{5290C292-91AE-45AF-B878-498E29B17FA3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{69CDA784-3E83-443C-95AA-0644BF1583CE}"
 	ProjectSection(SolutionItems) = preProject
@@ -65,6 +65,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{69CDA7
 		images\yarp_apis.PNG = images\yarp_apis.PNG
 		images\yarp_api_gateway.PNG = images\yarp_api_gateway.PNG
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthCheck.Web", "src\WebApps\HealthCheck.Web\HealthCheck.Web.csproj", "{45A8A293-B488-405C-B74D-93A85C269180}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,6 +122,10 @@ Global
 		{5290C292-91AE-45AF-B878-498E29B17FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5290C292-91AE-45AF-B878-498E29B17FA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5290C292-91AE-45AF-B878-498E29B17FA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45A8A293-B488-405C-B74D-93A85C269180}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45A8A293-B488-405C-B74D-93A85C269180}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45A8A293-B488-405C-B74D-93A85C269180}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45A8A293-B488-405C-B74D-93A85C269180}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -145,6 +151,7 @@ Global
 		{CFF0B508-6DA7-47B6-9962-E323A3267E5A} = {12E9902D-6963-44AB-9E2B-5613145BF85A}
 		{5290C292-91AE-45AF-B878-498E29B17FA3} = {CFF0B508-6DA7-47B6-9962-E323A3267E5A}
 		{69CDA784-3E83-443C-95AA-0644BF1583CE} = {9B0B8BEE-8EDD-4E2F-83A8-B94A8AD1BAFF}
+		{45A8A293-B488-405C-B74D-93A85C269180} = {CFF0B508-6DA7-47B6-9962-E323A3267E5A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D210CA8A-8D31-4440-9E51-CEA7121C85FA}
