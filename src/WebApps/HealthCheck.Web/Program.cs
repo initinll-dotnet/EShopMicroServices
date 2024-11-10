@@ -26,7 +26,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapHealthChecksUI(healthChecks => 
-    healthChecks.UIPath = "/healthchecks");
+    healthChecks.UIPath = "/");
 
 app.MapControllerRoute(
     name: "default",

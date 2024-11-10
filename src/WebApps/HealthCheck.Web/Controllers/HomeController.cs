@@ -16,8 +16,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return Redirect("/healthchecks");
-        //return View();
+        //return Redirect("/healthchecks");
+        return View();
     }
 
     public IActionResult Privacy()
